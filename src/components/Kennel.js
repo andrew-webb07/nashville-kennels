@@ -4,6 +4,8 @@ import "./Kennel.css"
 import { Customer } from "./customer/Customer.js"
 import { Employee } from "./employee/Employee.js"
 import { Location } from "./location/Location.js"
+import { AnimalProvider } from "./animal/AnimalProvider.js"
+import { AnimalList } from "./animal/AnimalList.js"
 
 export const Kennel = () => (
     <>
@@ -16,11 +18,9 @@ export const Kennel = () => (
         </address>
 
         <h2>Animals</h2>
-        <article className="animals">
-            <Animal />
-            <Animal />
-            <Animal />
-        </article>
+        <AnimalProvider>
+        <AnimalList />
+        </AnimalProvider>
 
         <h2>Employees</h2>
         <article className="employees">
