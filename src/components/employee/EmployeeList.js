@@ -22,9 +22,9 @@ export const EmployeeList = () => {
               <div className="employee__name">
                 Name: { employee.name }
               </div>
-              {/* <div className="employee__location">
-                Address: { employee.location }
-              </div> */}
+              <div className="employee__location">
+                Location: { employee.location.name }
+              </div>
             </div>
           )
         })
