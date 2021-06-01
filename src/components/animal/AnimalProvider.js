@@ -6,6 +6,8 @@ export const AnimalContext = createContext()
 // This component establishes what data can be used.
 export const AnimalProvider = (props) => {
     // useState([]) is a hook that defines a variable (animals) that holds the state of the component, and a function (setAnmials) that updates it.
+    // this is just array deconstruction
+    // one holds the state, one mutates the state
     const [animals, setAnimals] = useState([])
 
     const getAnimals = () => {
