@@ -7,5 +7,6 @@ export const Kennel = () => (
     <>
         <NavBar />
         <ApplicationViews />
+
     </>
 )
