@@ -22,8 +22,10 @@ export const CustomerList = () => {
               <div className="customer__name">
                 Name: { customer.name }
               </div>
-              <div className="customer__address">
-                Address: { customer.address }
+
+              <div className="customer__location">
+                Address: { customer.address}
+
               </div>
             </div>
           )

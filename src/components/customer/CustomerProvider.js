@@ -13,7 +13,7 @@ export const CustomerProvider = (props) => {
     }
 
     const addCustomer = customerObj => {
-        return fetch("http://localhost:8088/customers", {
+        return fetch("http://localhost:8088/Customers", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
