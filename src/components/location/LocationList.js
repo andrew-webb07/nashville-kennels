@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import { LocationContext } from "./LocationProvider"
+import { useHistory } from "react-router-dom"
 import "./Location.css"
 
 export const LocationList = () => {
@@ -11,24 +12,30 @@ export const LocationList = () => {
     getLocations()
   }, [])
 
+  const history = useHistory()
 
   return (
-    <section className="locations">
+    <>
+    <h2>Locations</h2>
+    <button onClick={
+      () => history.push("/locations/create")
+    }>
+          Open New Location
+    </button>
+
+    <div className="locations">
       {console.log("LocationList: Render", locations)}
       {
         locations.map(location => {
           return (
             <div className="location" id={`location--${location.id}`}>
-              <div className="location__name">
-                Name: { location.name }
-              </div>
-              <div className="location__address">
-                Address: { location.address }
-              </div>
+              <div className="location__name">Name: { location.name }</div>
+              <div className="location__address">Address: { location.address }</div>
             </div>
           )
         })
       }
-    </section>
+    </div>
+    </>
   )
 }
