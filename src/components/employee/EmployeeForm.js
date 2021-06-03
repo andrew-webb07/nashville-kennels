@@ -42,6 +42,7 @@ export const EmployeeForm = () => {
         locationId: locationId
       }
       addEmployee(newEmployee)
+    //   this takes you to this url in the view after addEmployee runs
         .then(() => history.push("/employees"))
     }
   }
