@@ -1,45 +1,39 @@
-import React, { useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { AnimalContext } from "./AnimalProvider"
-import { useHistory } from "react-router-dom"
 import "./Animal.css"
+import { Link } from 'react-router-dom';
 
-export const AnimalList = () => {
-  // This state changes when `getAnimals()` is invoked below
-  // the useContext hook allows you to use data structures and functions that a parent provider component exposes
-  const { animals, getAnimals } = useContext(AnimalContext)
+export const AnimalList = ({ history }) => {
+    const { getAnimals, animals } = useContext(AnimalContext)
 
-  //useEffect - reach out to the world for something; in this case it is the API call for the animals
-  useEffect(() => {
-    console.log("AnimalList: useEffect - getAnimals")
-    getAnimals()
-  }, [])
+    // Initialization effect hook -> Go get animal data
+    useEffect(()=>{
+        getAnimals()
+    }, [])
 
-  const history = useHistory()
+    return (
+        <>
+            <h1>Animals</h1>
 
-  return (
-    <>
-    <h2>Animals</h2>
-    <button onClick={
-      () => history.push("/animals/create")
-    }>
-          Add Animal
-    </button>
-    <div className="animals">
-    {
-      animals.map(animal => {
-        return (
-          <div className="animal" id={`animal--${animal.id}`}>
-            <div className="animal__name">
-              Name: { animal.name }
+            <button onClick={() => history.push("/animals/create")}>
+                Make Reservation
+            </button>
+
+            <div className="animals">
+                {
+                    animals.map(animal => 
+                      <div className="animal">
+                        <Link to={`/animals/detail/${animal.id}`}>
+                          { animal.name }
+                        </Link>
+                        <div>
+                          {animal.breed}
+                        </div>
+                      </div>
+                        
+                    )
+                }
             </div>
-            <div className="animal__breed">
-              Breed: { animal.breed }
-            </div>
-          </div>
-        )
-      })
-    }
-    </div>
-  </>
-  )
+        </>
+    )
 }

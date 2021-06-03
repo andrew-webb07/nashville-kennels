@@ -1,41 +1,37 @@
-import React, { useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { LocationContext } from "./LocationProvider"
-import { useHistory } from "react-router-dom"
 import "./Location.css"
+import { Link } from 'react-router-dom';
 
-export const LocationList = () => {
-  
-  const { locations, getLocations } = useContext(LocationContext)
+export const LocationList = ({ history }) => {
+    const { getLocations, locations } = useContext(LocationContext)
 
-  useEffect(() => {
-    console.log("LocationList: useEffect - getLocations")
-    getLocations()
-  }, [])
+    // Initialization effect hook -> Go get Location data
+    useEffect(()=>{
+        getLocations()
+    }, [])
 
-  const history = useHistory()
+    return (
+        <>
+            <h1>Locations</h1>
 
-  return (
-    <>
-    <h2>Locations</h2>
-    <button onClick={
-      () => history.push("/locations/create")
-    }>
-          Open New Location
-    </button>
-
-    <div className="locations">
-      {console.log("LocationList: Render", locations)}
-      {
-        locations.map(location => {
-          return (
-            <div className="location" id={`location--${location.id}`}>
-              <div className="location__name">Name: { location.name }</div>
-              <div className="location__address">Address: { location.address }</div>
+            <div className="locations">
+                {
+                    locations.map(location => 
+                      <div className="location">
+                        <Link to={`/locations/detail/${location.id}`}>
+                          { location.name }
+                        </Link>
+                        <div>
+                          {location.employees.length} employees
+                        </div>
+                        <div>
+                          {location.animals.length} animals
+                        </div>
+                      </div>
+                    )
+                }
             </div>
-          )
-        })
-      }
-    </div>
-    </>
-  )
+        </>
+    )
 }

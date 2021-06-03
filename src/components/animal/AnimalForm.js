@@ -50,10 +50,7 @@ export const AnimalForm = () => {
   const handleClickSaveAnimal = (event) => {
     event.preventDefault() //Prevents the browser from submitting the form
 
-    const locationId = parseInt(animal.locationId)
-    const customerId = parseInt(animal.customerId)
-
-    if (locationId === 0 || customerId === 0) {
+    if (animal.locationId === 0 || animal.customerId === 0) {
       window.alert("Please select a location and a customer")
     } else {
       //Invoke addAnimal passing the new animal object as an argument
@@ -62,8 +59,8 @@ export const AnimalForm = () => {
       const newAnimal = {
         name: animal.name,
         breed: animal.breed,
-        locationId: locationId,
-        customerId: customerId
+        locationId: parseInt(animal.locationId),
+        customerId: parseInt(animal.customerId)
       }
       addAnimal(newAnimal)
         .then(() => history.push("/animals"))

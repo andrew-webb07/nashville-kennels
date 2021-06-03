@@ -11,12 +11,18 @@ import { EmployeeProvider } from "./employee/EmployeeProvider"
 import { AnimalForm} from "./animal/AnimalForm"
 import { EmployeeForm} from "./employee/EmployeeForm"
 import { LocationForm } from "./location/LocationForm"
+import { AnimalDetail } from "./animal/AnimalDetail"
+import { EmployeeDetail } from "./employee/EmployeeDetail"
+import { LocationDetail } from "./location/LocationDetail"
 
 export const ApplicationViews = () => {
     return (
         <>
-            {/* Render the location list when http://localhost:3000/ */}
             <LocationProvider>
+                <Route exact path="/locations/detail/:locationId(\d+)">
+                    <LocationDetail />
+                </Route>
+
                 <Route exact path="/locations">
                     <LocationList />
                 </Route>
@@ -26,9 +32,12 @@ export const ApplicationViews = () => {
                 </Route>
             </LocationProvider>
 
-            {/* Render the animal list when http://localhost:3000/animals */}
             <AnimalProvider>
-                        <Route path="/animals">
+                        <Route exact path="/animals/detail/:animalId(\d+)">
+                            <AnimalDetail />
+                        </Route>
+
+                        <Route exact path="/animals">
                             <AnimalList />
                         </Route>
 
@@ -42,13 +51,18 @@ export const ApplicationViews = () => {
             </AnimalProvider>
 
             <CustomerProvider>
-                <Route path="/customers">
+                <Route exact path="/customers">
                     <CustomerList />
                 </Route>
             </CustomerProvider>
 
             <EmployeeProvider>
-                    <Route path="/employees">
+
+                    <Route exact path="/employees/detail/:employeeId(\d+)">
+                            <EmployeeDetail />
+                    </Route>
+
+                    <Route exact path="/employees">
                         <EmployeeList />
                     </Route>
 
