@@ -9,12 +9,18 @@ export const AnimalProvider = (props) => {
     // this is just array deconstruction
     // one holds the state, one mutates the state
     const [animals, setAnimals] = useState([])
+    const [ searchTerms, setSearchTerms ] = useState("")
 
     const getAnimals = () => {
         // _expand=customer - includes related customer; _sort=location.id - sort data by the location id
         return fetch("http://localhost:8088/animals?_expand=customer&_expand=location&_sort=location.id")
         .then(res => res.json())
         .then(setAnimals)
+    }
+
+    const getAnimalById = animalId => {
+        return fetch (`http://localhost:8088/animals/${animalId}`)
+        .then(res => res.json())
     }
 
     const addAnimal = animalObj => {
@@ -35,6 +41,17 @@ export const AnimalProvider = (props) => {
             .then(getAnimals)
     }
 
+    const updateAnimal = animal => {
+        return fetch(`http://localhost:8088/animals/${animal.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(animal)
+        })
+          .then(getAnimals)
+      }
+
     /*
         You return a context provider which has the
         `animals` state, `getAnimals` function,
@@ -43,7 +60,7 @@ export const AnimalProvider = (props) => {
     */
     return (
         <AnimalContext.Provider value={{
-            animals, getAnimals, addAnimal, releaseAnimal
+            animals, getAnimals, addAnimal, releaseAnimal, updateAnimal, getAnimalById, searchTerms, setSearchTerms
         }}>
             {props.children}
         </AnimalContext.Provider>
