@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react"
 import { EmployeeContext } from "./EmployeeProvider"
 import "./Employee.css"
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
-export const EmployeeList = ({ history }) => {
+export const EmployeeList = () => {
     const { getEmployees, employees } = useContext(EmployeeContext)
 
     // Initialization effect hook -> Go get Employee data
@@ -11,9 +11,15 @@ export const EmployeeList = ({ history }) => {
         getEmployees()
     }, [])
 
+    const history = useHistory();
+
     return (
         <>
             <h1>Employees</h1>
+
+            <button onClick={() => history.push("/employees/create")}>
+                Hire Employee
+            </button>
 
             <div className="employees">
                 {

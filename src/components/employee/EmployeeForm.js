@@ -1,79 +1,105 @@
 import React, { useContext, useEffect, useState } from "react"
 import { LocationContext } from "../location/LocationProvider"
-import { EmployeeContext } from "../employee/EmployeeProvider"
+import { EmployeeContext } from "./EmployeeProvider"
 import "./Employee.css"
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 export const EmployeeForm = () => {
-  const { addEmployee } = useContext(EmployeeContext)
-  const { locations, getLocations } = useContext(LocationContext)
+    const { addEmployee, getEmployeeById, updateEmployee } = useContext(EmployeeContext)
+    const { locations, getLocations } = useContext(LocationContext)
 
-  const [employee, setEmployee] = useState({
-    name: "",
-    locationId: 0
-  });
-
-  const history = useHistory();
-
-  useEffect(() => {
-    getLocations()
-  }, [])
-
-  const handleControlledInputChange = (event) => {
-  
-    const newEmployee = { ...employee }
+   
+    const [employee, setEmployee] = useState({})
     
-    newEmployee[event.target.id] = event.target.value
-    
-    setEmployee(newEmployee)
-  }
+    const [isLoading, setIsLoading] = useState(true);
 
-  const handleClickSaveEmployee = (event) => {
-    event.preventDefault() //Prevents the browser from submitting the form
+    const {employeeId} = useParams();
+	  const history = useHistory();
 
-    const locationId = parseInt(employee.locationId)
+    const handleControlledInputChange = (event) => {
 
-    if (locationId === 0) {
-      window.alert("Please select a location")
-    } else {
+      const newEmployee = { ...employee }
  
-      const newEmployee = {
-        name: employee.name,
-        locationId: locationId
-      }
-      addEmployee(newEmployee)
-    //   this takes you to this url in the view after addEmployee runs
-        .then(() => history.push("/employees"))
+      newEmployee[event.target.name] = event.target.value
+      
+      setEmployee(newEmployee)
     }
-  }
 
-  return (
-    <form className="employeeForm">
-      <h2 className="employeeForm__title">New Employee</h2>
-      <fieldset>
-        <div className="form-group">
-          <label htmlFor="name">Employee name:</label>
-          <input type="text" id="name" required autoFocus className="form-control" placeholder="Employee name" value={employee.name} onChange={handleControlledInputChange} />
-        </div>
-      </fieldset>
-     
-      <fieldset>
-        <div className="form-group">
-          <label htmlFor="location">Assign to location: </label>
-          <select name="locationId" id="locationId" className="form-control" value={employee.locationId} onChange={handleControlledInputChange}>
-            <option value="0">Select a location</option>
-            {locations.map(l => (
-              <option key={l.id} value={l.id}>
-                {l.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </fieldset>
-  
-      <button className="btn btn-primary" onClick={handleClickSaveEmployee}>
-        Save Employee
-          </button>
-    </form>
-  )
+    const handleSaveEmployee = () => {
+      if (parseInt(employee.locationId) === 0) {
+          window.alert("Please select a location")
+      } else {
+       
+        setIsLoading(true);
+        if (employeeId){
+          //PUT - update
+          updateEmployee({
+              id: employee.id,
+              name: employee.name,
+              locationId: parseInt(employee.locationId)
+          })
+          .then(() => history.push(`/employees/detail/${employee.id}`))
+        } else {
+          //POST - add
+          addEmployee({
+              name: employee.name,
+              locationId: parseInt(employee.locationId)
+          })
+          .then(() => history.push("/employees"))
+        }
+      }
+    }
+
+    // Get locations. If employeeId is in the URL, getEmployeeById
+    useEffect(() => {
+      getLocations().then(() => {
+        if (employeeId){
+          getEmployeeById(employeeId)
+          .then(employee => {
+              setEmployee(employee)
+              setIsLoading(false)
+          })
+        } else {
+          setIsLoading(false)
+        }
+      })
+    }, [])
+
+    //since state controlls this component, we no longer need
+    //useRef(null) or ref
+
+    return (
+      <form className="employeeForm">
+        <h2 className="employeeForm__title">{employeeId ? <>Edit Employee</> : <>New Employee</>}</h2>
+        <fieldset>
+          <div className="form-group">
+            <label htmlFor="employeeName">Employee name: </label>
+            <input type="text" id="employeeName" name="name" required autoFocus className="form-control"
+            placeholder="Employee name"
+            onChange={handleControlledInputChange}
+            defaultValue={employee.name}/>
+          </div>
+        </fieldset>
+        <fieldset>
+          <div className="form-group">
+            <label htmlFor="location">Assign to location: </label>
+            <select value={employee.locationId} name="locationId" id="employeeLocation" className="form-control" onChange={handleControlledInputChange}>
+              <option value="0">Select a location</option>
+              {locations.map(l => (
+                <option key={l.id} value={l.id}>
+                  {l.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </fieldset>
+        <button className="btn btn-primary"
+          disabled={isLoading}
+          onClick={event => {
+            event.preventDefault() // Prevent browser from submitting the form and refreshing the page
+            handleSaveEmployee()
+          }}>
+        {employeeId ? <>Save Employee</> : <>Add Employee</>}</button>
+      </form>
+    )
 }

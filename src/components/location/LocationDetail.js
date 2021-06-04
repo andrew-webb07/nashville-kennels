@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from "react"
 import { LocationContext } from "./LocationProvider"
 import "./Location.css"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 
 export const LocationDetail = () => {
-    const { locations } = useContext(LocationContext)
+    const { getLocationById } = useContext(LocationContext)
     const [ location, setLocation ] = useState({employees: [], animals: []})
 
     const { locationId } = useParams();
 
-    const locationIdInt = parseInt(locationId)
+    const history = useHistory()
 
     useEffect(() => {
-        const thisLocation = locations.find(l => l.id === locationIdInt)
-
-        setLocation(thisLocation)
+        getLocationById(locationId)
+        .then(location => {
+            setLocation(location)
+        })
     }, [locationId])
 
     return (
@@ -29,7 +30,7 @@ export const LocationDetail = () => {
         {location.animals.map(animal =>
             <div>{animal.name}</div>
             )}
-
+        <button onClick={() => {history.push(`/locations/edit/${location.id}`)}}>Edit</button>
     </section>
     )
 }

@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react"
 import { LocationContext } from "./LocationProvider"
 import "./Location.css"
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
-export const LocationList = ({ history }) => {
+export const LocationList = () => {
     const { getLocations, locations } = useContext(LocationContext)
 
     // Initialization effect hook -> Go get Location data
@@ -11,9 +11,15 @@ export const LocationList = ({ history }) => {
         getLocations()
     }, [])
 
+    const history = useHistory();
+
     return (
         <>
             <h1>Locations</h1>
+
+            <button onClick={() => history.push("/locations/create")}>
+                New Location
+            </button>
 
             <div className="locations">
                 {
