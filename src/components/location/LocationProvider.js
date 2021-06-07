@@ -7,13 +7,13 @@ export const LocationProvider = (props) => {
     const [locations, setLocations] = useState([])
 
     const getLocations = () => {
-        return fetch("http://localhost:8088/locations?_embed=employees&_embed=animals")
+        return fetch("https://ajw-kennels-api.herokuapp.com/locations?_embed=employees&_embed=animals")
         .then(res => res.json())
         .then(setLocations)
     }
 
     const addLocation = locationObj => {
-        return fetch("http://localhost:8088/locations", {
+        return fetch("https://ajw-kennels-api.herokuapp.com/locations", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -24,12 +24,12 @@ export const LocationProvider = (props) => {
     }
 
     const getLocationById = locationId => {
-        return fetch (`http://localhost:8088/locations/${locationId}/?_embed=employees&_embed=animals`)
+        return fetch (`https://ajw-kennels-api.herokuapp.com/locations/${locationId}/?_embed=employees&_embed=animals`)
         .then(res => res.json())
     }
 
     const updateLocation = location => {
-        return fetch(`http://localhost:8088/locations/${location.id}`, {
+        return fetch(`https://ajw-kennels-api.herokuapp.com/locations/${location.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"
