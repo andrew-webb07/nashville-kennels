@@ -31,8 +31,7 @@ export const EmployeeForm = () => {
       } else {
        
         setIsLoading(true);
-        if (employeeId){
-          //PUT - update
+        if (employeeId) {
           updateEmployee({
               id: employee.id,
               name: employee.name,

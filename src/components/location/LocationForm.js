@@ -17,7 +17,7 @@ export const LocationForm = () => {
   
     const newLocation = { ...location }
     
-    newLocation[event.target.id] = event.target.value
+    newLocation[event.target.name] = event.target.value
     
     setLocation(newLocation)
   }
@@ -42,16 +42,17 @@ export const LocationForm = () => {
   }
 
   useEffect(() => {
-    getLocations().then(() => {
+    // getLocations().then(() => {
       if (locationId) {
-        getLocationById(locationId).then(location => {
+        getLocationById(locationId)
+        .then(location => {
           setLocation(location)
           setIsLoading(false)
         })
       } else {
         setIsLoading(false)
       }
-    })
+    // })
   }, [])
 
   return (
@@ -60,14 +61,14 @@ export const LocationForm = () => {
       <fieldset>
         <div className="form-group">
           <label htmlFor="locationName">Location name: </label>
-          <input type="text" id="locationName" required autoFocus className="form-control" placeholder="Location name" defaultValue={location.name} onChange={handleControlledInputChange} />
+          <input type="text" id="locationName" name="name" required autoFocus className="form-control" placeholder="Location name" onChange={handleControlledInputChange} defaultValue={location.name} />
         </div>
       </fieldset>
 
       <fieldset>
         <div className="form-group">
           <label htmlFor="locationAddress">Location address: </label>
-          <input type="text" id="locationAddress" required autoFocus className="form-control" placeholder="Location address" defaultValue={location.address} onChange={handleControlledInputChange} />
+          <input type="text" id="locationAddress" name="address" required autoFocus className="form-control" placeholder="Location address" defaultValue={location.address} onChange={handleControlledInputChange} />
         </div>
       </fieldset>
   
