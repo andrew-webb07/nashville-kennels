@@ -61,14 +61,14 @@ export const LocationForm = () => {
       <fieldset>
         <div className="form-group">
           <label htmlFor="locationName">Location name: </label>
-          <input type="text" id="locationName" name="name" required autoFocus className="form-control" placeholder="Location name" onChange={handleControlledInputChange} defaultValue={location.name} />
+          <input type="text" id="locationName" name="name" required autoFocus className="form-control" placeholder="Location name" onChange={handleControlledInputChange} value={location.name} />
         </div>
       </fieldset>
 
       <fieldset>
         <div className="form-group">
           <label htmlFor="locationAddress">Location address: </label>
-          <input type="text" id="locationAddress" name="address" required autoFocus className="form-control" placeholder="Location address" defaultValue={location.address} onChange={handleControlledInputChange} />
+          <input type="text" id="locationAddress" name="address" required autoFocus className="form-control" placeholder="Location address" value={location.address} onChange={handleControlledInputChange} />
         </div>
       </fieldset>
   

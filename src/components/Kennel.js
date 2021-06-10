@@ -14,6 +14,12 @@ export const Kennel = () => (
           return (
             <>
               <NavBar />
+              <h2>Nashville Kennels</h2>
+                <div className="missionStatement">Loving care when you're not there.</div>
+                <address>
+                    <div>Visit Us at the Nashville North Location</div>
+                    <div>500 Puppy Way</div>
+                </address>
               <ApplicationViews />
             </>
           );

@@ -20,7 +20,7 @@ export const AnimalList = () => {
     useEffect(() => {
       if (searchTerms !== "") {
         // If the search field is not blank, display matching animals
-        const subset = animals.filter(animal => animal.name.toLowerCase().includes(searchTerms))
+        const subset = animals.filter(animal => animal.name.toLowerCase().includes(searchTerms.toLowerCase()))
         setFiltered(subset)
       } else {
         // If the search field is blank, display all animals
@@ -34,7 +34,7 @@ export const AnimalList = () => {
         <>
             <h1>Animals</h1>
 
-            <button onClick={() => history.push("/animals/create")}>
+            <button className="btn" onClick={() => history.push("/animals/create")}>
                 Make Reservation
             </button>
 
